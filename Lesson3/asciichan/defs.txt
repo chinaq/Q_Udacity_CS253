@@ -1,0 +1,4 @@
+Handler.render(template, **kw) ->
+	Handler.write(*a, **kw) ->
+		Handler.render_str(template, **kw) ->
+			jinja2.Enviroment.render(kw)
