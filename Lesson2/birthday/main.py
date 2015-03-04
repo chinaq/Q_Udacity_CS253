@@ -1,3 +1,6 @@
+#coding=utf-8
+
+
 #!/usr/bin/env python
 #
 # Copyright 2007 Google Inc.
@@ -14,6 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+
+
 import webapp2
 import cgi
 
@@ -35,20 +41,24 @@ form = """
 	</label>
 	<div style="color:red">%(error)s<div>
 	<br><br>
-	<input type="submit">
+	<input type="submit" value="submit">
 </form>
 """
 
 
 
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-			'August', 'September', 'Octaober', 'November', 'December']
+			'August', 'September', 'October', 'November', 'December']
+
+
+month_abbvs = dict((m[:3].lower(), m) for m in months)  #月份前三字母字典
+
+
 
 def valid_month(month):
 	if(month):
-		month = month.capitalize()
-	if(month in months):
-		return month
+		return month_abbvs.get(month[:3].lower())
+
 
 
 def valid_day(day):
@@ -67,7 +77,7 @@ def valid_year(year):
 
 
 def escape_html(s):
-	return cgi.escape(s, quote = True)
+	return cgi.escape(s, quote = True)    #使用html转义，如：'<abc>'将转换成'&lt;abc&gt'
 
 
 
