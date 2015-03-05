@@ -1,3 +1,5 @@
+#coding=utf-8
+
 #!/usr/bin/env python
 #
 # Copyright 2007 Google Inc.
@@ -20,8 +22,21 @@ form_html="""
 <form>
 <h2>Add a food</h2>
 <input type="text" name="food">
+%s
 <button>Add</button>
 </form>
+"""
+
+hidden_html="""<input type="hidden" name="food" value="%s">"""
+
+items_html="""<li>%s</li>"""
+shopping_list_html="""
+<br>
+<br>
+<h2>Shopping List</h2>
+<ul>
+%s
+</ul>
 """
 
 class MainHandler(webapp2.RequestHandler):
@@ -29,7 +44,20 @@ class MainHandler(webapp2.RequestHandler):
 		self.response.out.write(*a, **kw)
 
 	def get(self):
-		self.write_form(form_html)
+		output_hidden = ""
+		output_form = form_html
+
+		items = self.request.get_all("food")  #获取所有food
+		if items:
+			output_items = ""
+			for item in items:
+				output_hidden += hidden_html %item 		#生成hidden
+				output_items += items_html %item
+			output_shopping_list = shopping_list_html %output_items		#生成shopping list
+			output_form += output_shopping_list 	#追加shopping list
+
+		output_form = output_form %output_hidden	#追加hidden
+		self.write_form(output_form)
 
 app = webapp2.WSGIApplication([
 	('/', MainHandler)
