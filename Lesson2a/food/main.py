@@ -16,49 +16,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 import webapp2
+import jinja2
+import os
 
-form_html="""
-<form>
-<h2>Add a food</h2>
-<input type="text" name="food">
-%s
-<button>Add</button>
-</form>
-"""
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
-hidden_html="""<input type="hidden" name="food" value="%s">"""
-
-items_html="""<li>%s</li>"""
-shopping_list_html="""
-<br>
-<br>
-<h2>Shopping List</h2>
-<ul>
-%s
-</ul>
-"""
-
-class MainHandler(webapp2.RequestHandler):
-	def write_form(self, *a, **kw):
+class Handler(webapp2.RequestHandler):
+	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
 
+	def render_str(self, template, **params):
+		t = jinja_env.get_template(template)
+		return t.render(params)
+
+	def render(self, template, **kw):
+		self.write(self.render_str(template, **kw))
+
+
+
+class MainPage(Handler):
 	def get(self):
-		output_hidden = ""
-		output_form = form_html
-
 		items = self.request.get_all("food")  #获取所有food
-		if items:
-			output_items = ""
-			for item in items:
-				output_hidden += hidden_html %item 		#生成hidden
-				output_items += items_html %item
-			output_shopping_list = shopping_list_html %output_items		#生成shopping list
-			output_form += output_shopping_list 	#追加shopping list
+		self.render("shopping_list.html", items=items)
 
-		output_form = output_form %output_hidden	#追加hidden
-		self.write_form(output_form)
+class FizzBuzz(Handler):
+	def get(self):
+		n = self.request.get("n", 0)
+		n = n and int(n)        # and和 or返回它们实际进行比较的值之一
+		self.render("fizzbuzz.html", n=n)
 
 app = webapp2.WSGIApplication([
-	('/', MainHandler)
+	('/', MainPage),
+	('/fizzbuzz', FizzBuzz)
 ], debug=True)
