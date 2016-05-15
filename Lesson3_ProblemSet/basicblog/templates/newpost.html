@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>/ascii/</title>
+		<title>New Post</title>
 	</head>
 	
 
@@ -30,13 +30,13 @@
 	        margin: 20px auto;
 	    }
 
-	    .art + .art {
+	    .blog + .blog {
 	        margin-top: 20px;
 	    }
-	    .art-title {
+	    .blog-title {
 	        font-weight: bold; font-size: 20px;
 	    }
-	    .art-body {
+	    .blog-body {
 	        margin: 0; font-size: 17px;
 	    }
 	</style>
@@ -44,28 +44,24 @@
 
 
 	<body>
-		<h1>/ascii/</h1>
+		<h1>New Post</h1>
+		<a href="/">back to index</a>
+		<br>
+		<br>
+		<br>
 
 		<form method="post">
 			<label>
 				<div>title</div>
-				<input type="text" name="title" value="{{title}}">
+				<input type="text" name="subject" value="{{title}}">
 			</label>
 			<label>
-				<div>art</div>
-				<textarea name="art">{{art}}</textarea>
+				<div>body</div>
+				<textarea name="content">{{body}}</textarea>
 			</label>
 			<div class="error">{{error}}</div>
-			<input type="submit">
+			<input type="submit" value="Add">
 		</form>
-
-		<hr>
-		{% for art in arts %}
-			<div class="art">
-				<div class="art-title">{{art.title}}</div>
-				<pre class="art-body">{{art.art}}</pre>
-			</div>
-		{% endfor %}
 	</body>
 
 </html>

@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 
 <html>
 	<head>
-		<title>/ascii/</title>
+		<title>Newest Blog</title>
 	</head>
 	
 
@@ -30,13 +29,13 @@
 	        margin: 20px auto;
 	    }
 
-	    .art + .art {
+	    .blog + .blog {
 	        margin-top: 20px;
 	    }
-	    .art-title {
+	    .blog-title {
 	        font-weight: bold; font-size: 20px;
 	    }
-	    .art-body {
+	    .blog-body {
 	        margin: 0; font-size: 17px;
 	    }
 	</style>
@@ -44,28 +43,16 @@
 
 
 	<body>
-		<h1>/ascii/</h1>
+		<h1>Newest Blog</h1>
+		<a href="/">back to index</a>
+		<br>
+		<br>
+		<br>
 
-		<form method="post">
-			<label>
-				<div>title</div>
-				<input type="text" name="title" value="{{title}}">
-			</label>
-			<label>
-				<div>art</div>
-				<textarea name="art">{{art}}</textarea>
-			</label>
-			<div class="error">{{error}}</div>
-			<input type="submit">
-		</form>
-
-		<hr>
-		{% for art in arts %}
-			<div class="art">
-				<div class="art-title">{{art.title}}</div>
-				<pre class="art-body">{{art.art}}</pre>
-			</div>
-		{% endfor %}
+		<div class="blog">
+			<div class="blog-title">{{title}}</div>
+			<pre class="blog-body">{{body}}</pre>
+		</div>
 	</body>
 
 </html>
